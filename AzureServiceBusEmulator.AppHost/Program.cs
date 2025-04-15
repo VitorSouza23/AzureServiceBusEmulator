@@ -5,6 +5,10 @@ var serviceBus = builder.AddAzureServiceBus("messaging")
 serviceBus.AddServiceBusQueue("queue");
 
 builder.AddProject<Projects.WebApi>("webapi")
+                    .WithUrlForEndpoint("http", url =>
+                    {
+                        url.DisplayText = "Swagger UI";
+                    })
                     .WithReference(serviceBus)
                     .WaitFor(serviceBus);
 builder.AddProject<Projects.BackgroundService>("background")
